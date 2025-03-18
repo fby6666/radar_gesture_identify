@@ -1,0 +1,4 @@
+./Dataset/front/dt/0001.png ./Dataset/front/rt/0001.png ./Dataset/front/at_azimuth/0001.png ./Dataset/front/at_elevation/0001.png 0
+./Dataset/back/dt/0001.png ./Dataset/back/rt/0001.png ./Dataset/back/at_azimuth/0001.png ./Dataset/back/at_elevation/0001.png 1
+./Dataset/left/dt/0001.png ./Dataset/left/rt/0001.png ./Dataset/left/at_azimuth/0001.png ./Dataset/left/at_elevation/0001.png 2
+./Dataset/right/dt/0001.png ./Dataset/right/rt/0001.png ./Dataset/right/at_azimuth/0001.png ./Dataset/right/at_elevation/0001.png 3
