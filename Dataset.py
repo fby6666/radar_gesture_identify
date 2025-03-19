@@ -27,11 +27,11 @@ class RadarGestureDatasetTXT(Dataset):
         return len(self.data_list)
 
     def __getitem__(self, idx):
-        # 读取图像（转换为 RGB 格式）
-        rt_img = Image.open(self.data_list[idx][0]).convert('RGB')
-        dt_img = Image.open(self.data_list[idx][1]).convert('RGB')
-        at_azimuth_img = Image.open(self.data_list[idx][2]).convert('RGB')
-        at_elevation_img = Image.open( self.data_list[idx][3]).convert('RGB')
+        # 读取图像
+        rt_img = Image.open(self.data_list[idx][0]).convert("L")
+        dt_img = Image.open(self.data_list[idx][1]).convert("L")
+        at_azimuth_img = Image.open(self.data_list[idx][2]).convert("L")
+        at_elevation_img = Image.open( self.data_list[idx][3]).convert("L")
         label=int(self.data_list[idx][4])
         # 预处理
         if self.transform:
@@ -49,24 +49,4 @@ class RadarGestureDatasetTXT(Dataset):
         }
         return sample, label
 
-# 定义图像预处理流程
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),  # 统一尺寸
-    transforms.ToTensor(),          # 转换为 PyTorch Tensor
-    # transforms.Normalize(mean=[...], std=[...])  # 归一化（如需）
-])
 
-# 创建数据集实例
-txt_file = './data_list.txt'  # txt 文件路径
-dataset = RadarGestureDatasetTXT(txt_file=txt_file, transform=transform)
-# 加载数据
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=0)
-
-# 测试一个 batch
-for batch_samples, batch_labels in dataloader:
-    print("rt 图像 batch 尺寸:", batch_samples["rt"].shape)
-    print("dt 图像 batch 尺寸:", batch_samples["dt"].shape)
-    print("at_azimuth 图像 batch 尺寸:", batch_samples["at_azimuth"].shape)
-    print("at_elevation 图像 batch 尺寸:", batch_samples["at_elevation"].shape)
-    print("标签:", batch_labels)
-    break
