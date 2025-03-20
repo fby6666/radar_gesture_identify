@@ -1,4 +1,3 @@
-
 import os
 import cv2
 import numpy as np
@@ -156,6 +155,7 @@ def augment_data(data_dir):
 if __name__ == "__main__":
     data_dir = "Dataset"
     augment_data(data_dir)
+    print("数据增强完成！")
 
 
 

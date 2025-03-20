@@ -22,10 +22,11 @@ def collect_data(q):
         transforms.Resize((224,224)),
         transforms.ToTensor()
     ])
-    rt_path='./predict_data/rt/20.jpg'
-    dt_path='./predict_data/dt/20.jpg'
-    at_azimuth_path='./predict_data/at_azimuth/20.jpg'
-    at_elevation_path='./predict_data/at_elevation/20.jpg'
+    #21-right
+    rt_path='./predict_data/rt/21.jpg'
+    dt_path='./predict_data/dt/21.jpg'
+    at_azimuth_path='./predict_data/at_azimuth/21.jpg'
+    at_elevation_path='./predict_data/at_elevation/21.jpg'
     img_exist(rt_path=rt_path,dt_path=dt_path,at_azimuth_path=at_azimuth_path,at_elevation_path=at_elevation_path)
     while True:
         sample={}

@@ -49,4 +49,22 @@ class RadarGestureDatasetTXT(Dataset):
         }
         return sample, label
 
+from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms
+from Dataset import *
 
+def dataset_loader(txt_file,batch_size=32,ratio=0.8,shuffle=True, transform=transforms):
+    # 图像进行预处理，同时将数据集输入dataloader
+    # 创建数据集实例
+    # txt_file = './data_list.txt'  # txt 文件路径
+    dataset = RadarGestureDatasetTXT(txt_file=txt_file, transform=transform)
+    train_size=int(len(dataset)*ratio)
+    test_size = len(dataset) - train_size
+    print(f'train_samples_num: {train_size},test_samples_num: {test_size}')
+    # 划分数据集
+    generator1 = torch.Generator().manual_seed(42)
+    train_dataset,test_dataset=torch.utils.data.random_split(dataset, [train_size, test_size], generator=generator1)
+    # 创建 DataLoader
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle, num_workers=0)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=shuffle)
+    return train_loader,test_loader

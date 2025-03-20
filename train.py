@@ -3,7 +3,7 @@ import os
 from torch.utils.data import DataLoader
 from torch import nn, optim
 from model import *
-
+from Dataset import *
 def weight_init(m):
     if isinstance(m,nn.Conv2d):
         # 使用 He 初始化 (kaiming normal)，适合 ReLU 激活函数
@@ -34,7 +34,7 @@ def main():
     batch_size=16
     tarin_iter, test_iter = dataset_loader('./data_list.txt', batch_size=16,transform=trans)
     start_epoch,end_epoch=0,20
-    lr=0.001
+    lr=0.005
     net = MultiViewNet(num_classes=4).cuda()
     net.apply(weight_init)
     loss=nn.CrossEntropyLoss().cuda()
@@ -76,11 +76,13 @@ def main():
     batch_samples,batch_labels=next(iter(test_iter))
     test_samples= {key:value[:10].cuda() for key ,value in batch_samples.items()}
     #进行预测
+    net = MultiViewNet(4).cuda()
+    net.load_state_dict(torch.load('weights/gpu_best_weights.pth'))
     net.eval()
     with torch.no_grad():
         output = net(test_samples)
         predicted_labels = torch.argmax(output, dim=1)
-        print("预测结果：", predicted_labels)
+        print("预测结果：", predicted_labels.cpu().numpy())
         print("真实标签：", batch_labels[:10])
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ for %%f in (*.jpg) do (
     set /a "count+=1"
     set "newname=0001"
     set "newname=!newname:~0,-%count%!!count!"
-    if !count! leq 20 (
+    if !count! leq 50 (
         ren "%%f" "!newname!.jpg"
     )
 )
