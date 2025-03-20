@@ -13,7 +13,11 @@ sub_dirs = ["dt", "rt", "at_azimuth", "at_elevation"]
 output_txt='./data_list.txt'
 with open(output_txt,'w')as f:
     for view_dir in view_dirs:
-        file_list = sorted(os.listdir(os.path.join(dataset_root, view_dir, sub_dirs[0])))
+        # 获取 dt 目录下的所有 .jpg 文件
+        file_list = sorted([
+            filename for filename in os.listdir(os.path.join(dataset_root, view_dir, sub_dirs[0]))
+            if filename.lower().endswith('.jpg')  # 只保留 .jpg 文件
+        ])
         for filename in file_list:
             paths = []
             for sub_dir in sub_dirs:

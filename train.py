@@ -31,6 +31,7 @@ def main():
         transforms.ToTensor(),  # 转换为 PyTorch Tensor
         # transforms.Normalize(mean=[...], std=[...])  # 归一化（如需）
     ])
+    batch_size=16
     tarin_iter, test_iter = dataset_loader('./data_list.txt', batch_size=16,transform=trans)
     start_epoch,end_epoch=0,20
     lr=0.001
@@ -45,32 +46,33 @@ def main():
             batch_samples={key:value.cuda() for key ,value in batch_samples.items()}
             y_hat=net(batch_samples)
             l=loss(y_hat,batch_labels.cuda())
-            print('epoch :{}, batch :{}, loss :{:.4f}'.format(epoch, idx, loss.sum().item()))
+            print('epoch :{}, batch :{}, loss :{:.4f}'.format(epoch, idx, l.sum().item()))
             optimizer.zero_grad()
             l.backward()
             optimizer.step()
-        if epoch %2==0:
-            net.eval()
-            total_correct = 0
-            total_num = 0
-            with torch.no_grad():
-                for batch_samples ,batch_labels in test_iter:
-                    y_hat=net(batch_samples.cuda())
-                    correct=d2l.accuracy(y_hat,batch_labels.cuda())
-                    total_correct+=correct
-                    total_num+=batch_labels.numel()
-                test_accuracy=total_correct/total_num
-                print('epoch:', epoch, 'test_accuracy:', test_accuracy)
-                if test_accuracy > accuracy_pre:
-                    accuracy_pre = test_accuracy
-                    ################################
-                    fd = open('log_gpu.dat', 'a+')
-                    fd.write('epoch {}'.format(epoch) + ': ' + str(test_accuracy) + '\n')
-                    fd.close()
-                    ################################
-                    os.makedirs('./weights',exist_ok=True)
-                    save_path = os.path.join('./weights', 'gpu_backup_' + str(epoch) + '.pth')
-                    torch.save(net.state_dict(), save_path)
+        # 每轮训练结束后进行测试
+        net.eval()
+        total_correct = 0
+        total_num = 0
+        with torch.no_grad():
+            for batch_samples ,batch_labels in test_iter:
+                batch_samples = {key: value.cuda() for key, value in batch_samples.items()}
+                y_hat=net(batch_samples)
+                correct=d2l.accuracy(y_hat,batch_labels.cuda())
+                total_correct+=correct
+                total_num+=batch_labels.numel()
+            test_accuracy=total_correct/total_num
+            print('epoch:', epoch, 'test_accuracy:', test_accuracy)
+            if test_accuracy > accuracy_pre:
+                accuracy_pre = test_accuracy
+                ################################
+                fd = open('log_gpu.dat', 'a+')
+                fd.write('epoch {}'.format(epoch) + ': ' + str(test_accuracy) + '\n')
+                fd.close()
+                ################################
+                os.makedirs('./weights',exist_ok=True)
+                save_path = os.path.join('./weights', 'gpu_best_weights' +'.pth')
+                torch.save(net.state_dict(), save_path)
     batch_samples,batch_labels=next(iter(test_iter))
     test_samples= {key:value[:10].cuda() for key ,value in batch_samples.items()}
     #进行预测
