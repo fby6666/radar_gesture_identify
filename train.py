@@ -31,11 +31,11 @@ def main():
         transforms.ToTensor(),  # 转换为 PyTorch Tensor
         # transforms.Normalize(mean=[...], std=[...])  # 归一化（如需）
     ])
-    batch_size=16
-    tarin_iter, test_iter = dataset_loader('./data_list.txt', batch_size=16,transform=trans)
-    start_epoch,end_epoch=0,20
+    batch_size=32
+    tarin_iter, test_iter = dataset_loader('./data_list.txt', batch_size=batch_size,transform=trans)
+    start_epoch,end_epoch=0,50
     lr=0.005
-    net = MultiViewNet(num_classes=4).cuda()
+    net = MultiViewNet(num_classes=8).cuda()
     net.apply(weight_init)
     loss=nn.CrossEntropyLoss().cuda()
     accuracy_pre = -1
@@ -76,7 +76,7 @@ def main():
     batch_samples,batch_labels=next(iter(test_iter))
     test_samples= {key:value[:10].cuda() for key ,value in batch_samples.items()}
     #进行预测
-    net = MultiViewNet(4).cuda()
+    net = MultiViewNet(num_classes=8).cuda()
     net.load_state_dict(torch.load('weights/gpu_best_weights.pth'))
     net.eval()
     with torch.no_grad():

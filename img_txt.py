@@ -6,8 +6,12 @@ labels={
     "back": 1,
     "left": 2,
     "right": 3,
+    "up": 4,
+    "down": 5,
+    "clockwise":6,#顺时针
+    "counterclockwise":7#逆时针
 }
-view_dirs = ["front", "back", "left", "right"]
+view_dirs = ["front", "back", "left", "right","up","down","clockwise","counterclockwise"]
 sub_dirs = ["dt", "rt", "at_azimuth", "at_elevation"]
 
 output_txt='./data_list.txt'

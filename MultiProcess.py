@@ -38,10 +38,10 @@ def collect_data(q):
         print("采集数据写入队列")
         time.sleep(0.1)
 def predict_data(q):
-    net=MultiViewNet(4).cuda()
+    net=MultiViewNet(num_classes=8).cuda()
     net.load_state_dict(torch.load('weights/gpu_best_weights.pth'))
     net.eval()
-    labels=["front","back","left","right"]
+    labels=["front","back","left","right","up","down","clockwise","counterclockwise"]
     while True:
         if not q.empty():
             sample=q.get()

@@ -30,11 +30,11 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python
 ```
 📂 Dataset/                  # 数据集根目录
 │── 📂 front/                # 正面视角
-│   ├── 📂 dt/               # 俯视角
+│   ├── 📂 dt/               # 
 │   │   ├── 0.jpg
 │   │   ├── 1.jpg
 │   │   └── ...
-│   ├── 📂 rt/               # 右视角
+│   ├── 📂 rt/               # 
 │   │   ├── 0.jpg
 │   │   ├── 1.jpg
 │   │   └── ...
@@ -46,6 +46,21 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python
 │   │   ├── 0.jpg
 │   │   ├── 1.jpg
 │   │   └── ...
+```
+
+**classes：**
+
+```
+labels={
+    "front": 0,
+    "back": 1,
+    "left": 2,
+    "right": 3,
+    "up": 4,
+    "down": 5,
+    "clockwise":6, #顺时针
+    "counterclockwise":7 #逆时针
+}
 ```
 
 if you want strengthen data,you can run 
