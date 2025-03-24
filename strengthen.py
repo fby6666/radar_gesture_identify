@@ -89,7 +89,7 @@ def rotation(image):
 
 # 数据增强
 def augment_data(data_dir):
-    gesture_classes = ['left', 'right', 'front', 'back']
+    gesture_classes = ['left', 'right', 'front', 'back', 'up', 'down', 'clockwise', 'counterclockwise']
     time_graphs = ['rt', 'dt', 'at_elevation', 'at_azimuth']
 
     for gesture in gesture_classes:
@@ -155,7 +155,3 @@ def augment_data(data_dir):
 if __name__ == "__main__":
     data_dir = "Dataset"
     augment_data(data_dir)
-    print("数据增强完成！")
-
-
-

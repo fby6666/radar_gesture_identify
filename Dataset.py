@@ -19,6 +19,7 @@ class RadarGestureDatasetTXT(Dataset):
             for line in f.readlines():
                 items = line.strip().split()  # 按空格拆分（如果是逗号分隔，使用 split(',')）
                 if len(items) != 5:
+                    print(f"Invalid line in txt file: {line}")
                     continue  # 确保数据格式正确
                 rt, dt, at_azimuth, at_elevation, label = items
                 self.data_list.append((rt, dt, at_azimuth, at_elevation, int(label)))
@@ -58,6 +59,7 @@ def dataset_loader(txt_file,batch_size=32,ratio=0.8,shuffle=True, transform=tran
     # 创建数据集实例
     # txt_file = './data_list.txt'  # txt 文件路径
     dataset = RadarGestureDatasetTXT(txt_file=txt_file, transform=transform)
+    print(type(dataset))
     train_size=int(len(dataset)*ratio)
     test_size = len(dataset) - train_size
     print(f'train_samples_num: {train_size},test_samples_num: {test_size}')

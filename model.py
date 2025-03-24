@@ -62,8 +62,6 @@ class MultiViewNet(nn.Module):
                     "left": tensor,
                     "right": tensor
                 }
-        Returns:
-            logits: 预测的原始分数
         """
         # 分别提取各视角特征（输出形状：(batch, 512, 1, 1)）
         f_front = self.extractor_front(inputs["rt"])
@@ -84,21 +82,5 @@ class MultiViewNet(nn.Module):
         logits = self.classifier(f_cat)
         return logits
 
-
-# if __name__ == '__main__':
-#     trans= transforms.Compose([
-#         transforms.Resize((224, 224)),  # 统一尺寸
-#         transforms.ToTensor(),  # 转换为 PyTorch Tensor
-#         # transforms.Normalize(mean=[...], std=[...])  # 归一化（如需）
-#     ])
-#     tarin_iter,test_iter=dataset_loader('./data_list.txt',transform=trans)
-#     # 测试一个 batch
-#     for batch_samples, batch_labels in tarin_iter:
-#         # 确保 batch size 只有 1 以便 debug
-#         net = MultiViewNet(num_classes=4)
-#         # 将 4 张灰度图作为输入，确保输入维度匹配
-#         output = net(batch_samples)  # 假设 net 接受 4 个输入
-#         print("网络输出:", output.shape)  # 期望输出: torch.Size([batch_size, num_classes])
-#         break
 
 
